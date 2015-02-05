@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzy.dao.RecordMapper" >
+  <resultMap id="BaseResultMap" type="com.xzy.model.Record" >
+    <id column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="record_time" property="recordTime" jdbcType="TIMESTAMP" />
+    <result column="record_input_corpname" property="recordInputCorpname" jdbcType="VARCHAR" />
+    <result column="record_input_code" property="recordInputCode" jdbcType="VARCHAR" />
+    <result column="record_input_province" property="recordInputProvince" jdbcType="VARCHAR" />
+    <result column="record_output_corpname" property="recordOutputCorpname" jdbcType="VARCHAR" />
+    <result column="record_output_name" property="recordOutputName" jdbcType="VARCHAR" />
+    <result column="record_output_status" property="recordOutputStatus" jdbcType="VARCHAR" />
+    <result column="record_output_code" property="recordOutputCode" jdbcType="VARCHAR" />
+    <result column="record_output_registerdate" property="recordOutputRegisterdate" jdbcType="VARCHAR" />
+    <result column="record_output_registerfund" property="recordOutputRegisterfund" jdbcType="VARCHAR" />
+    <result column="record_output_range" property="recordOutputRange" jdbcType="VARCHAR" />
+    <result column="record_output_opendate" property="recordOutputOpendate" jdbcType="VARCHAR" />
+    <result column="record_output_manageopendate" property="recordOutputManageopendate" jdbcType="VARCHAR" />
+    <result column="record_output_manageenddate" property="recordOutputManageenddate" jdbcType="VARCHAR" />
+    <result column="record_output_companytype" property="recordOutputCompanytype" jdbcType="VARCHAR" />
+    <result column="record_output_registerorgan" property="recordOutputRegisterorgan" jdbcType="VARCHAR" />
+    <result column="record_output_registeraddress" property="recordOutputRegisteraddress" jdbcType="VARCHAR" />
+    <result column="record_status" property="recordStatus" jdbcType="INTEGER" />
+    <result column="record_batch_id" property="recordBatchId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    record_id, record_time, record_input_corpname, record_input_code, record_input_province, 
+    record_output_corpname, record_output_name, record_output_status, record_output_code, 
+    record_output_registerdate, record_output_registerfund, record_output_range, record_output_opendate, 
+    record_output_manageopendate, record_output_manageenddate, record_output_companytype, 
+    record_output_registerorgan, record_output_registeraddress, record_status, record_batch_id
+  </sql>
+  <select id="getListByBatchId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from record
+    where record_batch_id = #{batchId,jdbcType=INTEGER} and record_status = -1
+  </select>
+   <select id="getOkNumById" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select
+    count(*)
+    from record
+    where record_batch_id = #{batchId,jdbcType=INTEGER} and record_status != -1
+  </select>
+   <select id="getListResByBatchId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from record
+    where record_batch_id = #{batchId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xzy.model.Record" >
+    insert into record (record_id, record_time, record_input_corpname, 
+      record_input_code, record_input_province, record_output_corpname, 
+      record_output_name, record_output_status, record_output_code, 
+      record_output_registerdate, record_output_registerfund, 
+      record_output_range, record_output_opendate, 
+      record_output_manageopendate, record_output_manageenddate, 
+      record_output_companytype, record_output_registerorgan, 
+      record_output_registeraddress, record_status, 
+      record_batch_id)
+    values (#{recordId,jdbcType=INTEGER}, #{recordTime,jdbcType=TIMESTAMP}, #{recordInputCorpname,jdbcType=VARCHAR}, 
+      #{recordInputCode,jdbcType=VARCHAR}, #{recordInputProvince,jdbcType=VARCHAR}, #{recordOutputCorpname,jdbcType=VARCHAR}, 
+      #{recordOutputName,jdbcType=VARCHAR}, #{recordOutputStatus,jdbcType=VARCHAR}, #{recordOutputCode,jdbcType=VARCHAR}, 
+      #{recordOutputRegisterdate,jdbcType=VARCHAR}, #{recordOutputRegisterfund,jdbcType=VARCHAR}, 
+      #{recordOutputRange,jdbcType=VARCHAR}, #{recordOutputOpendate,jdbcType=VARCHAR}, 
+      #{recordOutputManageopendate,jdbcType=VARCHAR}, #{recordOutputManageenddate,jdbcType=VARCHAR}, 
+      #{recordOutputCompanytype,jdbcType=VARCHAR}, #{recordOutputRegisterorgan,jdbcType=VARCHAR}, 
+      #{recordOutputRegisteraddress,jdbcType=VARCHAR}, #{recordStatus,jdbcType=INTEGER}, 
+      #{recordBatchId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzy.model.Record" >
+    insert into record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="recordTime != null" >
+        record_time,
+      </if>
+      <if test="recordInputCorpname != null" >
+        record_input_corpname,
+      </if>
+      <if test="recordInputCode != null" >
+        record_input_code,
+      </if>
+      <if test="recordInputProvince != null" >
+        record_input_province,
+      </if>
+      <if test="recordOutputCorpname != null" >
+        record_output_corpname,
+      </if>
+      <if test="recordOutputName != null" >
+        record_output_name,
+      </if>
+      <if test="recordOutputStatus != null" >
+        record_output_status,
+      </if>
+      <if test="recordOutputCode != null" >
+        record_output_code,
+      </if>
+      <if test="recordOutputRegisterdate != null" >
+        record_output_registerdate,
+      </if>
+      <if test="recordOutputRegisterfund != null" >
+        record_output_registerfund,
+      </if>
+      <if test="recordOutputRange != null" >
+        record_output_range,
+      </if>
+      <if test="recordOutputOpendate != null" >
+        record_output_opendate,
+      </if>
+      <if test="recordOutputManageopendate != null" >
+        record_output_manageopendate,
+      </if>
+      <if test="recordOutputManageenddate != null" >
+        record_output_manageenddate,
+      </if>
+      <if test="recordOutputCompanytype != null" >
+        record_output_companytype,
+      </if>
+      <if test="recordOutputRegisterorgan != null" >
+        record_output_registerorgan,
+      </if>
+      <if test="recordOutputRegisteraddress != null" >
+        record_output_registeraddress,
+      </if>
+      <if test="recordStatus != null" >
+        record_status,
+      </if>
+      <if test="recordBatchId != null" >
+        record_batch_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="recordTime != null" >
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordInputCorpname != null" >
+        #{recordInputCorpname,jdbcType=VARCHAR},
+      </if>
+      <if test="recordInputCode != null" >
+        #{recordInputCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recordInputProvince != null" >
+        #{recordInputProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputCorpname != null" >
+        #{recordOutputCorpname,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputName != null" >
+        #{recordOutputName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputStatus != null" >
+        #{recordOutputStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputCode != null" >
+        #{recordOutputCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisterdate != null" >
+        #{recordOutputRegisterdate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisterfund != null" >
+        #{recordOutputRegisterfund,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRange != null" >
+        #{recordOutputRange,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputOpendate != null" >
+        #{recordOutputOpendate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputManageopendate != null" >
+        #{recordOutputManageopendate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputManageenddate != null" >
+        #{recordOutputManageenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputCompanytype != null" >
+        #{recordOutputCompanytype,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisterorgan != null" >
+        #{recordOutputRegisterorgan,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisteraddress != null" >
+        #{recordOutputRegisteraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null" >
+        #{recordStatus,jdbcType=INTEGER},
+      </if>
+      <if test="recordBatchId != null" >
+        #{recordBatchId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzy.model.Record" >
+    update record
+    <set >
+      <if test="recordTime != null" >
+        record_time = #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordInputCorpname != null" >
+        record_input_corpname = #{recordInputCorpname,jdbcType=VARCHAR},
+      </if>
+      <if test="recordInputCode != null" >
+        record_input_code = #{recordInputCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recordInputProvince != null" >
+        record_input_province = #{recordInputProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputCorpname != null" >
+        record_output_corpname = #{recordOutputCorpname,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputName != null" >
+        record_output_name = #{recordOutputName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputStatus != null" >
+        record_output_status = #{recordOutputStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputCode != null" >
+        record_output_code = #{recordOutputCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisterdate != null" >
+        record_output_registerdate = #{recordOutputRegisterdate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisterfund != null" >
+        record_output_registerfund = #{recordOutputRegisterfund,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRange != null" >
+        record_output_range = #{recordOutputRange,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputOpendate != null" >
+        record_output_opendate = #{recordOutputOpendate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputManageopendate != null" >
+        record_output_manageopendate = #{recordOutputManageopendate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputManageenddate != null" >
+        record_output_manageenddate = #{recordOutputManageenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputCompanytype != null" >
+        record_output_companytype = #{recordOutputCompanytype,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisterorgan != null" >
+        record_output_registerorgan = #{recordOutputRegisterorgan,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOutputRegisteraddress != null" >
+        record_output_registeraddress = #{recordOutputRegisteraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null" >
+        record_status = #{recordStatus,jdbcType=INTEGER},
+      </if>
+      <if test="recordBatchId != null" >
+        record_batch_id = #{recordBatchId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzy.model.Record" >
+    update record
+    set record_time = #{recordTime,jdbcType=TIMESTAMP},
+      record_input_corpname = #{recordInputCorpname,jdbcType=VARCHAR},
+      record_input_code = #{recordInputCode,jdbcType=VARCHAR},
+      record_input_province = #{recordInputProvince,jdbcType=VARCHAR},
+      record_output_corpname = #{recordOutputCorpname,jdbcType=VARCHAR},
+      record_output_name = #{recordOutputName,jdbcType=VARCHAR},
+      record_output_status = #{recordOutputStatus,jdbcType=VARCHAR},
+      record_output_code = #{recordOutputCode,jdbcType=VARCHAR},
+      record_output_registerdate = #{recordOutputRegisterdate,jdbcType=VARCHAR},
+      record_output_registerfund = #{recordOutputRegisterfund,jdbcType=VARCHAR},
+      record_output_range = #{recordOutputRange,jdbcType=VARCHAR},
+      record_output_opendate = #{recordOutputOpendate,jdbcType=VARCHAR},
+      record_output_manageopendate = #{recordOutputManageopendate,jdbcType=VARCHAR},
+      record_output_manageenddate = #{recordOutputManageenddate,jdbcType=VARCHAR},
+      record_output_companytype = #{recordOutputCompanytype,jdbcType=VARCHAR},
+      record_output_registerorgan = #{recordOutputRegisterorgan,jdbcType=VARCHAR},
+      record_output_registeraddress = #{recordOutputRegisteraddress,jdbcType=VARCHAR},
+      record_status = #{recordStatus,jdbcType=INTEGER},
+      record_batch_id = #{recordBatchId,jdbcType=INTEGER}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>

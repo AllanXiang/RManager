@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzy.dao.CorpInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xzy.model.CorpInfo" >
+    <id column="idcorpinfo" property="idcorpinfo" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="corpname" property="corpname" jdbcType="VARCHAR" />
+    <result column="registerno" property="registerno" jdbcType="VARCHAR" />
+    <result column="inserttime" property="inserttime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xzy.model.CorpInfo" extends="BaseResultMap" >
+    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    idcorpinfo, province, corpname, registerno, inserttime
+  </sql>
+  <sql id="Blob_Column_List" >
+    detail
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from corpinfo
+    where idcorpinfo = #{idcorpinfo,jdbcType=INTEGER}
+  </select>
+  <select id="getCorpInfoListByName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from corpinfo
+    where corpname LIKE #{corpname,jdbcType=VARCHAR}
+  </select>
+  <select id="getCorpInfoListByNo" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from corpinfo
+    where registerno = #{registerno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from corpinfo
+    where idcorpinfo = #{idcorpinfo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xzy.model.CorpInfo" >
+    insert into corpinfo (idcorpinfo, province, corpname, 
+      registerno, inserttime, detail
+      )
+    values (#{idcorpinfo,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{corpname,jdbcType=VARCHAR}, 
+      #{registerno,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}, #{detail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzy.model.CorpInfo" >
+    insert into corpinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idcorpinfo != null" >
+        idcorpinfo,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="corpname != null" >
+        corpname,
+      </if>
+      <if test="registerno != null" >
+        registerno,
+      </if>
+      <if test="inserttime != null" >
+        inserttime,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idcorpinfo != null" >
+        #{idcorpinfo,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="corpname != null" >
+        #{corpname,jdbcType=VARCHAR},
+      </if>
+      <if test="registerno != null" >
+        #{registerno,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzy.model.CorpInfo" >
+    update corpinfo
+    <set >
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="corpname != null" >
+        corpname = #{corpname,jdbcType=VARCHAR},
+      </if>
+      <if test="registerno != null" >
+        registerno = #{registerno,jdbcType=VARCHAR},
+      </if>
+        inserttime = now(),
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where idcorpinfo = #{idcorpinfo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xzy.model.CorpInfo" >
+    update corpinfo
+    set province = #{province,jdbcType=VARCHAR},
+      corpname = #{corpname,jdbcType=VARCHAR},
+      registerno = #{registerno,jdbcType=VARCHAR},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      detail = #{detail,jdbcType=LONGVARCHAR}
+    where idcorpinfo = #{idcorpinfo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzy.model.CorpInfo" >
+    update corpinfo
+    set province = #{province,jdbcType=VARCHAR},
+      corpname = #{corpname,jdbcType=VARCHAR},
+      registerno = #{registerno,jdbcType=VARCHAR},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP}
+    where idcorpinfo = #{idcorpinfo,jdbcType=INTEGER}
+  </update>
+</mapper>

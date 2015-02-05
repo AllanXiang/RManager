@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzy.dao.ReportMapper" >
+  <resultMap id="BaseResultMap" type="com.xzy.model.Report" >
+    <id column="report_id" property="reportId" jdbcType="INTEGER" />
+    <result column="report_time" property="reportTime" jdbcType="VARCHAR" />
+    <result column="report_tot_num" property="reportTotNum" jdbcType="INTEGER" />
+    <result column="report_ok_num" property="reportOkNum" jdbcType="INTEGER" />
+    <result column="report_error_num" property="reportErrorNum" jdbcType="INTEGER" />
+    <result column="report_manual_num" property="reportManualNum" jdbcType="INTEGER" />
+    <result column="report_avg_time" property="reportAvgTime" jdbcType="REAL" />
+    <result column="report_rate" property="reportRate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    report_id, report_time, report_tot_num, report_ok_num, report_error_num, report_manual_num, 
+    report_avg_time, report_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from report
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </select>
+  <select id="getReportList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from report
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from report
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xzy.model.Report" >
+    insert into report (report_id, report_time, report_tot_num, 
+      report_ok_num, report_error_num, report_manual_num, 
+      report_avg_time, report_rate)
+    values (#{reportId,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR}, #{reportTotNum,jdbcType=INTEGER},
+      #{reportOkNum,jdbcType=INTEGER}, #{reportErrorNum,jdbcType=INTEGER}, #{reportManualNum,jdbcType=INTEGER}, 
+      #{reportAvgTime,jdbcType=REAL}, #{reportRate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzy.model.Report" >
+    insert into report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reportId != null" >
+        report_id,
+      </if>
+      <if test="reportTime != null" >
+        report_time,
+      </if>
+      <if test="reportTotNum != null" >
+        report_tot_num,
+      </if>
+      <if test="reportOkNum != null" >
+        report_ok_num,
+      </if>
+      <if test="reportErrorNum != null" >
+        report_error_num,
+      </if>
+      <if test="reportManualNum != null" >
+        report_manual_num,
+      </if>
+      <if test="reportAvgTime != null" >
+        report_avg_time,
+      </if>
+      <if test="reportRate != null" >
+        report_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reportId != null" >
+        #{reportId,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null" >
+        #{reportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTotNum != null" >
+        #{reportTotNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportOkNum != null" >
+        #{reportOkNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportErrorNum != null" >
+        #{reportErrorNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportManualNum != null" >
+        #{reportManualNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportAvgTime != null" >
+        #{reportAvgTime,jdbcType=REAL},
+      </if>
+      <if test="reportRate != null" >
+        #{reportRate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzy.model.Report" >
+    update report
+    <set >
+      <if test="reportTime != null" >
+        report_time = #{reportTime,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTotNum != null" >
+        report_tot_num = #{reportTotNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportOkNum != null" >
+        report_ok_num = #{reportOkNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportErrorNum != null" >
+        report_error_num = #{reportErrorNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportManualNum != null" >
+        report_manual_num = #{reportManualNum,jdbcType=INTEGER},
+      </if>
+      <if test="reportAvgTime != null" >
+        report_avg_time = #{reportAvgTime,jdbcType=REAL},
+      </if>
+      <if test="reportRate != null" >
+        report_rate = #{reportRate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzy.model.Report" >
+    update report
+    set report_time = #{reportTime,jdbcType=VARCHAR},
+      report_tot_num = #{reportTotNum,jdbcType=INTEGER},
+      report_ok_num = #{reportOkNum,jdbcType=INTEGER},
+      report_error_num = #{reportErrorNum,jdbcType=INTEGER},
+      report_manual_num = #{reportManualNum,jdbcType=INTEGER},
+      report_avg_time = #{reportAvgTime,jdbcType=REAL},
+      report_rate = #{reportRate,jdbcType=VARCHAR}
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </update>
+</mapper>

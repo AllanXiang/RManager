@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzy.dao.ManualLogMapper" >
+  <resultMap id="BaseResultMap" type="com.xzy.model.ManualLog" >
+    <id column="manual_id" property="manualId" jdbcType="INTEGER" />
+    <result column="corpinfo_id" property="corpinfoId" jdbcType="INTEGER" />
+    <result column="searchcondition" property="searchcondition" jdbcType="INTEGER" />
+    <result column="manual_time" property="manualTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    manual_id, corpinfo_id, searchcondition, maual_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from manuallog
+    where manual_id = #{manualId,jdbcType=INTEGER}
+  </select>
+  <select id="getManualLogNum" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select
+    count(*)
+    from manuallog
+    where manual_time BETWEEN #{time,jdbcType=TIMESTAMP} AND #{time,jdbcType=TIMESTAMP}+interval 1 MONTH
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from manuallog
+    where manual_id = #{manualId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xzy.model.ManualLog" >
+    insert into manuallog (manual_id, corpinfo_id, searchcondition, 
+      manual_time)
+    values (#{manualId,jdbcType=INTEGER}, #{corpinfoId,jdbcType=INTEGER}, #{searchcondition,jdbcType=INTEGER}, 
+      #{manualTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzy.model.ManualLog" >
+    insert into manuallog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="manualId != null" >
+        manual_id,
+      </if>
+      <if test="corpinfoId != null" >
+        corpinfo_id,
+      </if>
+      <if test="searchcondition != null" >
+        searchcondition,
+      </if>
+        manual_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="manualId != null" >
+        #{manualId,jdbcType=INTEGER},
+      </if>
+      <if test="corpinfoId != null" >
+        #{corpinfoId,jdbcType=INTEGER},
+      </if>
+      <if test="searchcondition != null" >
+        #{searchcondition,jdbcType=INTEGER},
+      </if>
+        now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzy.model.ManualLog" >
+    update manuallog
+    <set >
+      <if test="corpinfoId != null" >
+        corpinfo_id = #{corpinfoId,jdbcType=INTEGER},
+      </if>
+      <if test="searchcondition != null" >
+        searchcondition = #{searchcondition,jdbcType=INTEGER},
+      </if>
+      <if test="maualTime != null" >
+        manual_time = #{maualTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where manual_id = #{manualId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzy.model.ManualLog" >
+    update manuallog
+    set corpinfo_id = #{corpinfoId,jdbcType=INTEGER},
+      searchcondition = #{searchcondition,jdbcType=INTEGER},
+      manual_time = #{manualTime,jdbcType=TIMESTAMP}
+    where manual_id = #{manualId,jdbcType=INTEGER}
+  </update>
+</mapper>

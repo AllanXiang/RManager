@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzy.dao.ServerMapper" >
+  <resultMap id="BaseResultMap" type="com.xzy.model.Server" >
+    <id column="server_id" property="serverId" jdbcType="INTEGER" />
+    <result column="server_ip" property="serverIp" jdbcType="VARCHAR" />
+    <result column="server_status" property="serverStatus" jdbcType="INTEGER" />
+    <result column="server_province" property="serverProvince" jdbcType="VARCHAR" />
+    <result column="server_stime" property="serverStime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    server_id, server_ip, server_status, server_province, server_stime
+  </sql>
+  <select id="getServerList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from server
+  </select>
+  <select id="getServerOKList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from server
+    where server_status = 1
+  </select>
+  <select id="getServerIpList" resultType="java.lang.String" >
+    select
+    server_ip
+    from server
+    WHERE server_status = 1
+  </select>
+  <select id="checkServerByIp" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select
+    count(*)
+    from searchlog
+    where searchcondition = 0 and localip = #{serverId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from server
+    where server_id = #{serverId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from server
+    where server_id = #{serverId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xzy.model.Server" >
+    insert into server (server_id, server_ip, server_status, 
+      server_province, server_stime)
+    values (#{serverId,jdbcType=INTEGER}, #{serverIp,jdbcType=VARCHAR}, #{serverStatus,jdbcType=INTEGER}, 
+      #{serverProvince,jdbcType=VARCHAR}, #{serverStime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzy.model.Server" >
+    insert into server
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serverId != null" >
+        server_id,
+      </if>
+      <if test="serverIp != null" >
+        server_ip,
+      </if>
+      <if test="serverStatus != null" >
+        server_status,
+      </if>
+      <if test="serverProvince != null" >
+        server_province,
+      </if>
+
+        server_stime,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serverId != null" >
+        #{serverId,jdbcType=INTEGER},
+      </if>
+      <if test="serverIp != null" >
+        #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="serverStatus != null" >
+        #{serverStatus,jdbcType=INTEGER},
+      </if>
+      <if test="serverProvince != null" >
+        #{serverProvince,jdbcType=VARCHAR},
+      </if>
+        now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzy.model.Server" >
+    update server
+    <set >
+      <if test="serverIp != null" >
+        server_ip = #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="serverStatus != null" >
+        server_status = #{serverStatus,jdbcType=INTEGER},
+      </if>
+      <if test="serverProvince != null" >
+        server_province = #{serverProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="serverStime != null" >
+        server_stime = #{serverStime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where server_id = #{serverId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzy.model.Server" >
+    update server
+    set server_ip = #{serverIp,jdbcType=VARCHAR},
+      server_status = #{serverStatus,jdbcType=INTEGER},
+      server_province = #{serverProvince,jdbcType=VARCHAR},
+      server_stime = #{serverStime,jdbcType=TIMESTAMP}
+    where server_id = #{serverId,jdbcType=INTEGER}
+  </update>
+</mapper>
