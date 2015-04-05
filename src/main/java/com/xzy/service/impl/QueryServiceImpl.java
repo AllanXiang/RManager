@@ -53,7 +53,7 @@ public class QueryServiceImpl implements QueryService {
                 r.setRecordOutputStatus(item.elementTextTrim("status"));
                 r.setRecordOutputRegisterdate(item.elementTextTrim("registDate"));
                 r.setRecordOutputRegisterfund(item.elementTextTrim("registFund"));
-                r.setRecordOutputRange(item.elementTextTrim("manageRange"));
+                r.setRecordOutputRange(item.elementTextTrim("manageRange").substring(0,200));
                 r.setRecordOutputOpendate(item.elementTextTrim("openDate"));
                 r.setRecordOutputManageopendate(item.elementTextTrim("manageBeginDate"));
                 r.setRecordOutputManageenddate(item.elementTextTrim("manageEndDate"));
@@ -67,8 +67,12 @@ public class QueryServiceImpl implements QueryService {
             r.setRecordTime(new Date());
         } catch (DocumentException e){
             logger.error("xml DocumentException error "+xml);
+            r.setRecordStatus(3);
+            r.setRecordTime(new Date());
         } catch (Exception e){
             logger.error("xml other error"+xml);
+            r.setRecordStatus(3);
+            r.setRecordTime(new Date());
         }
         return r;
     }
