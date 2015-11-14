@@ -15,6 +15,8 @@ public class Server {
 
     private String serverStime;
 
+    private String serverOptime;
+
     public Integer getServerId() {
         return serverId;
     }
@@ -53,5 +55,13 @@ public class Server {
 
     public void setServerStime(Date serverStime) {
         this.serverStime = Time.dateToString(serverStime);
+    }
+
+    public String getServerOptime() {
+        return serverOptime;
+    }
+
+    public void setServerOptime(Date serverOptime) {
+        this.serverOptime = Time.dateToString(serverOptime);
     }
 }

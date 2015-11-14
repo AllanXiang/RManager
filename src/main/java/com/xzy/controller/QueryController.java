@@ -5,10 +5,7 @@ import com.xzy.model.BatchTable;
 import com.xzy.service.QueryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -54,12 +51,25 @@ public class QueryController {
             t.setBatchEtime(batch.getBatchEtime());
             t.setBatchStime(batch.getBatchStime());
             t.setBatchFilename(batch.getBatchFilename());
-            t.setBatchUrl(batch.getBatchId());
-            t.setBatchStatus(batch.getBatchStatus()+"/"+batch.getBatchNum());
+            int id = batch.getBatchId();
+            t.setBatchUrl(id);
+            t.setBatchDel(id);
+            int status = batch.getBatchStatus() % 10 - 3;
+            int ok_num = batch.getBatchStatus() / 10;
+            int num = batch.getBatchNum();
+            t.setBatchStatus(ok_num + "/" + num);
+            t.setBatchOp(id, status);
             list.add(t);
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("data", list);
         return map;
+    }
+
+    @RequestMapping(value = "/query/api/batch/{id}", method = RequestMethod.PUT)
+    public @ResponseBody
+    String upBatchAPI(@RequestBody Batch batch){
+        int status = this.queryService.upBatch(batch);
+        return status+"";
     }
 }

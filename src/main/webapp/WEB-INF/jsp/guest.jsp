@@ -224,6 +224,9 @@
                                 <thead>
                                 <tr>
                                     <th>
+                                        删除
+                                    </th>
+                                    <th>
                                         批量文件名
                                     </th>
                                     <th>
@@ -237,6 +240,9 @@
                                     </th>
                                     <th>
                                         下载
+                                    </th>
+                                    <th>
+                                        操作
                                     </th>
                                 </tr>
                                 </thead>
@@ -266,7 +272,38 @@
 <!-- The basic File Upload plugin -->
 <script src="../js/jquery.fileupload.js"></script>
 <script type="text/javascript">
-
+    var tmp;
+    function upBatch(id, status) {
+        var op = "删除";
+        if(status == -1){
+            op = "开启";
+        }else if(status == -2){
+            op = "暂停";
+        }
+        if(confirm('确定要执行' + op + '操作吗?')) {
+            var up_data = {
+                batchId: id,
+                batchStatus: status
+            };
+            $.ajax({
+                contentType: "application/json",
+                type: 'PUT',
+                dataType: "json",
+                url: "/query/api/batch/"+id,
+                data: JSON.stringify(up_data),
+                success: function (msg) {
+                    if ($.trim(msg) == '1') {
+                        alert("操作成功");
+                        tmp.api().ajax.reload();
+                    } else if ($.trim(msg) == '0') {
+                        alert("操作失败 ");
+                    }
+                }
+            });
+            return true;
+        }
+        return false;
+    };
     $(document).ready(function() {
         var opt = {
             "sPaginationType": "bootstrap",
@@ -280,17 +317,19 @@
             "ajax": "/query/api/batch",
             "bDestroy": true,
             "columns": [
+                { "data": "batchDel" },
                 { "data": "batchFilename" },
                 { "data": "batchStatus" },
                 { "data": "batchStime" },
                 { "data": "batchEtime" },
-                { "data": "batchUrl" }
+                { "data": "batchUrl" },
+                { "data": "batchOp" }
             ]
         };
         var table = $('#batchTable').dataTable(opt);
         setInterval( function () {
             table.api().ajax.reload();
-        }, 30000 );
+        }, 60000 );
 
         var url = '/file/api/upload';
         $('#fileupload').fileupload({

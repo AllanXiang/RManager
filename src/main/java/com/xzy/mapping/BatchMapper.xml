@@ -22,7 +22,7 @@
    <select id="getBatchList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from batch order by batch_stime desc
+    from batch where batch_status != -3 order by batch_stime desc
   </select>
   <select id="getLatest" resultMap="BaseResultMap">
     select

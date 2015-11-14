@@ -55,4 +55,30 @@ public class BatchTable {
 
     private String batchStatus;
 
+    private String batchOp;
+    private String batchDel;
+    public String getBatchOp() {
+        return batchOp;
+    }
+
+    public void setBatchOp(int batchId, int batchStatus) {
+        if(batchStatus == 1){
+            this.batchOp = "<input type=\"button\" class='btn btn-inverse' value=\"完成\">";
+        }else if(batchStatus == -2){
+            this.batchOp = "<input onclick=\"return upBatch(" + batchId + ", -1)\" type=\"button\" class='btn btn-danger' value=\"暂停\">";
+        }else if(batchStatus == -1) {
+            this.batchOp = "<input onclick=\"return upBatch(" + batchId + ", -2)\" type=\"button\" class='btn btn-warning' value=\"待运行\">";
+        }else if(batchStatus == 0){
+            this.batchOp = "<input onclick=\"return upBatch(" + batchId + ", -2)\" type=\"button\" class='btn btn-success' value=\"运行\">";
+        }
+    }
+
+    public String getBatchDel() {
+        return batchDel;
+    }
+
+    public void setBatchDel(int batchId) {
+        this.batchDel = "<a onclick=\"return upBatch(" + batchId + ", -3)\" title=\"删除\" class=\"btn btn-mini tip theme-login\"> " +
+                "<img src=\"../img/icons/essen/16/busy.png\" alt=\"\"> </a>";
+    }
 }

@@ -34,7 +34,7 @@
     select
     <include refid="Base_Column_List" />
     from record
-    where record_batch_id = #{batchId,jdbcType=INTEGER} and record_status = -1
+    where record_batch_id = #{batchId,jdbcType=INTEGER} and record_status = -1 limit 100
   </select>
    <select id="getOkNumById" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
     select

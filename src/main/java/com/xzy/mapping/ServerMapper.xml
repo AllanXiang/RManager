@@ -7,6 +7,7 @@
     <result column="server_status" property="serverStatus" jdbcType="INTEGER" />
     <result column="server_province" property="serverProvince" jdbcType="VARCHAR" />
     <result column="server_stime" property="serverStime" jdbcType="TIMESTAMP" />
+    <result column="server_optime" property="serverOptime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     server_id, server_ip, server_status, server_province, server_stime
@@ -15,6 +16,7 @@
     select
     <include refid="Base_Column_List" />
     from server
+    where server_status != -3
   </select>
   <select id="getServerOKList" resultMap="BaseResultMap" >
     select
@@ -46,12 +48,12 @@
   </delete>
   <insert id="insert" parameterType="com.xzy.model.Server" >
     insert into server (server_id, server_ip, server_status, 
-      server_province, server_stime)
+      server_province, server_stime, server_optime)
     values (#{serverId,jdbcType=INTEGER}, #{serverIp,jdbcType=VARCHAR}, #{serverStatus,jdbcType=INTEGER}, 
-      #{serverProvince,jdbcType=VARCHAR}, #{serverStime,jdbcType=TIMESTAMP})
+      #{serverProvince,jdbcType=VARCHAR}, #{serverStime,jdbcType=TIMESTAMP}, #{serverOptime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xzy.model.Server" >
-    insert into server
+    insert ignore into server
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="serverId != null" >
         server_id,
@@ -65,8 +67,8 @@
       <if test="serverProvince != null" >
         server_province,
       </if>
-
         server_stime,
+        server_optime,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serverId != null" >
@@ -82,6 +84,7 @@
         #{serverProvince,jdbcType=VARCHAR},
       </if>
         now(),
+        now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xzy.model.Server" >
@@ -96,9 +99,7 @@
       <if test="serverProvince != null" >
         server_province = #{serverProvince,jdbcType=VARCHAR},
       </if>
-      <if test="serverStime != null" >
-        server_stime = #{serverStime,jdbcType=TIMESTAMP},
-      </if>
+        server_optime = now(),
     </set>
     where server_id = #{serverId,jdbcType=INTEGER}
   </update>

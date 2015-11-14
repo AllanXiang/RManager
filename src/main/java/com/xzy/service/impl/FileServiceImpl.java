@@ -60,7 +60,7 @@ public class FileServiceImpl implements FileService {
                 i++;
 //                String pro = Global.str2code.get(cell3.getContents());
                 String tmp = cell1.getContents();
-                if(tmp!=null && tmp.length()>=15) {
+                if(tmp!=null  && tmp.length()>=15) {
                     String code = tmp.substring(0, 15);
                     String pro = code.substring(0,2)+"0000";
                     Record r = new Record();
@@ -81,7 +81,6 @@ public class FileServiceImpl implements FileService {
     }
 
     private final String uploadPath = "/home/crawler/file/"; // 用于存放上传文件的目录
-//    private final String uploadPath = "/home/xzy/file/"; // 用于存放上传文件的目录
     public void init(){
         File file = new File(uploadPath);
         if (!file.exists()) {

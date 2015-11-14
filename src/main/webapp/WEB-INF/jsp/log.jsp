@@ -137,7 +137,10 @@
 													开始时间
 												</th>
 												<th>
-													ip地址
+													访问IP
+												</th>
+												<th>
+													服务器IP
 												</th>
 												<th>
 													耗时
@@ -157,6 +160,7 @@
 												<td>${searchlog.corpname} ${searchlog.registerid}</td>
 												<td>${searchlog.starttime}</td>
 												<td>${searchlog.userip}</td>
+												<td>${searchlog.localip}</td>
 												<td>${searchlog.spendtime}</td>
 												<td><c:set var="province" value="${searchlog.province}"/>
 													<%=Global.provincelist.get(pageContext.getAttribute("province"))%></td>

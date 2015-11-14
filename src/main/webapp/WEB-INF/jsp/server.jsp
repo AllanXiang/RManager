@@ -156,12 +156,14 @@
 												<td><a href="/server/${server.serverId}" title="配置"
 														class="btn btn-mini tip theme-login"> <img
 															src="../img/icons/essen/16/config.png" alt=""> </a>
+													<a onclick="return delServer(${server.serverId}, '${server.serverIp}')" title="删除"
+													   class="btn btn-mini tip theme-login"> <img
+															src="../img/icons/essen/16/busy.png" alt=""> </a>
 												</td>
 											</tr>
 											</c:forEach>
 										</tbody>
 									</table>
-
 								</div>
 							</div>
 						</div>
@@ -177,5 +179,36 @@
 		<script src="../js/jquery.dataTables.bootstrap.js"></script>
 		<script src="../js/tableTools/js/TableTools.min.js"></script>
 		<script src="../js/custom.js"></script>
+		<script>
+		function delServer(id, ip) {
+			if(confirm('确定要执行此操作吗?')) {
+				var status = -3;
+				var del_data = {
+					serverId: id,
+					serverIp: ip,
+					serverStatus: status
+				};
+				$.ajax({
+					contentType: "application/json",
+					type: 'PUT',
+					dataType: "json",
+					url: "/server/api/" + id,
+					data: JSON.stringify(del_data),
+					success: function (msg) {
+						if ($.trim(msg) == '1') {
+							alert("删除成功");
+							window.location.href = "/server";
+						} else if ($.trim(msg) == '0') {
+							alert("删除失败 ");
+						} else {
+							alert("当前服务器正在运行 无法删除");
+						}
+					}
+				});
+				return true;
+			}
+			return false;
+		};
+		</script>
 	</body>
 </html>

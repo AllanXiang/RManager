@@ -47,7 +47,12 @@ public class ServerServiceImpl implements ServerService{
     @Override
     public int upServer(Server server) {
         if(checkServer(server.getServerIp())) {
-            int status = this.serverMapper.updateByPrimaryKeySelective(setServer(server));
+            int status = 0;
+            if(server.getServerProvince() != null){
+                status = this.serverMapper.updateByPrimaryKeySelective(setServer(server));
+            }else{
+                status = this.serverMapper.updateByPrimaryKeySelective(server);
+            }
             if(status == 1){
                 status = upNginx();
             }
@@ -60,9 +65,11 @@ public class ServerServiceImpl implements ServerService{
     @Override
     public int addServer(Server server) {
         int status = this.serverMapper.insertSelective(setServer(server));
-        if(status==1){
+        if(status == 1){
             if(server.getServerStatus() == 1){
                 status = upNginx();
+            }else{
+                this.serverMapper.deleteByPrimaryKey(server.getServerId());
             }
         }
         return status;

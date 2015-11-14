@@ -11,4 +11,5 @@ public interface QueryService {
     public String getQueryResult(String corpName, String province, String regCode);
     public void getMulQueryResult();
     public List<Batch> getBatchList();
+    public int upBatch(Batch batch);
 }
