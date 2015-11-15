@@ -67,11 +67,11 @@ public class SingleQuery implements Callable<String> {
             r.setRecordStatus(flag);
             r.setRecordTime(new Date());
         } catch (DocumentException e){
-            logger.error("xml DocumentException error "+xml);
+            logger.error("xml DocumentException error " + xml + JSON.toJSONString(r));
             r.setRecordStatus(3);
             r.setRecordTime(new Date());
         } catch (Exception e){
-            logger.error("xml other error"+xml);
+            logger.error("xml other error " + xml + JSON.toJSONString(r));
             r.setRecordStatus(3);
             r.setRecordTime(new Date());
         }
