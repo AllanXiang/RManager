@@ -63,6 +63,9 @@ public class FileServiceImpl implements FileService {
                 if(tmp!=null  && tmp.length()>=15) {
                     String code = tmp.substring(0, 15);
                     String pro = code.substring(0,2)+"0000";
+                    if(Global.pinyinmap.get(pro) == null){
+                        continue;
+                    }
                     Record r = new Record();
                     r.setRecordInputProvince(pro);
                     r.setRecordBatchId(batchId);
